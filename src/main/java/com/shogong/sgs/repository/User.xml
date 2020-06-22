@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shogong.sgs.repository.UserRepository">
+
+    <insert id="Register" parameterType="UserRegistetVo">
+        INSERT INTO BusinessUserInfo
+            (id, password, businessLicenseNumber, businessOperatorName, sellCategory, businessLicense, copyAccount, 
+            businessAddress, shippingAddress, deliveryCompany, deliveryFee, deliveryConditions, mainProducts,
+            majorBusiness, producingCountry, operationStartYear, manager, representativeNumber, representativeEmail, USER_TOKEN, ModifyDate)
+        VALUES
+            (#{id}, #{password}, #{businessLicenseNumber}, #{businessLicenseNumber}, #{sellCategory}, #{businessLicense}, #{copyAccount}, 
+            #{businessAddress}, #{shippingAddress}, #{deliveryCompany}, #{deliveryFee}, #{deliveryConditions}, #{mainProducts}, 
+            #{majorBusiness}, #{producingCountry}, #{operationStartYear}, #{manager}, #{representativeNumber}, #{representativeEmail}, #{USER_TOKEN}, now())
+    </insert>
+ 
+    <select id="Login" parameterType="LoginVo" resultType="LoginResultVo">
+        SELECT USER_TOKEN from BusinessUserInfo where id = #{id} AND password = #{password}
+    </select>
+
+     <select id="tokenCheck" parameterType="String" resultType="TokenCheckVo">
+        SELECT id from BusinessUserInfo where USER_TOKEN = #{givenToken}
+    </select>
+
+</mapper>   
