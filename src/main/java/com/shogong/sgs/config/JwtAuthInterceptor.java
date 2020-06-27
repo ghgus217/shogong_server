@@ -10,13 +10,18 @@ import com.shogong.sgs.vo.LoginVo;
 import com.shogong.sgs.vo.TokenCheckVo;
 import com.shogong.sgs.vo.UserRegistetVo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.StreamingHttpOutputMessage.Body;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 public class JwtAuthInterceptor implements HandlerInterceptor {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
     private JwtUtil jwtUtil;
@@ -28,12 +33,15 @@ public class JwtAuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        String givenToken = request.getHeader(HEADER_TOKEN_KEY);
-        TokenCheckVo tokenCheckVo = userRepository.tokenCheck(givenToken);
+        
+        Cookie givenToken = WebUtils.getCookie(request, "access-token");
+        TokenCheckVo tokenCheckVo = userRepository.tokenCheck(givenToken.getValue());
 
         if(tokenCheckVo == null)
+        {
+            //response.sendRedirect("/");
             return false;
+        }
 
         //verifyToken(givenToken, userid);
 

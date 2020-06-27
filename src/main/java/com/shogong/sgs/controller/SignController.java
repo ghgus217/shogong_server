@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.shogong.sgs.repository.UserRepository;
 import com.shogong.sgs.service.UserService;
+import com.shogong.sgs.vo.LoginResponseVo;
 import com.shogong.sgs.vo.LoginResultVo;
 import com.shogong.sgs.vo.LoginVo;
 import com.shogong.sgs.vo.TokenCheckVo;
@@ -19,13 +20,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.WebUtils;
 
 import io.swagger.annotations.Api;
 
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(description = "유저 API")
 @RestController
-public class SignController{
+public class SignController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -36,39 +38,37 @@ public class SignController{
     private UserRepository userRepository;
 
     @PostMapping("/api/auth/register")
-    public boolean Register(@RequestBody UserRegistetVo user)
-    {
+    public boolean Register(@RequestBody UserRegistetVo user) {
         service.Register(user);
 
-        if(user.getId() == null)
+        if (user.getId() == null)
             return false;
 
         return true;
     }
 
     @PostMapping("/api/auth/login")
-    public LoginResultVo Login(@RequestBody LoginVo user, HttpServletResponse response)
-    {
+    public LoginResponseVo Login(@RequestBody LoginVo user, HttpServletResponse response) {
         LoginResultVo result = service.Login(user);
+        LoginResponseVo lrv = new LoginResponseVo();
 
         if(result.getUSER_TOKEN() == null)
-            result.setLogin_Message("login fail");
+            lrv.setLogin_Message("login fail");
         else
         {
-            response.addCookie(new Cookie("access-token", "USER_TOKEN"));  
-            result.setLogin_Message("login success");
+            response.setHeader("access-token", result.getUSER_TOKEN());
+            response.addCookie(new Cookie("access-token", result.getUSER_TOKEN()));  
+            lrv.setLogin_Message("login success");
         }
 
-        return result;
+        return lrv;
     }
 
-    @PostMapping("/api/auth/check")
-    public TokenCheckVo check(@RequestBody LoginVo user, HttpServletRequest request, HttpServletResponse response)
+    @GetMapping("/api/auth/check")
+    public TokenCheckVo check(HttpServletRequest request, HttpServletResponse response)
     {
-        String HEADER_TOKEN_KEY = "access-token";
-
-        String givenToken = request.getHeader(HEADER_TOKEN_KEY);
-        TokenCheckVo tokenCheckVo = userRepository.tokenCheck(givenToken);
+        Cookie givenToken = WebUtils.getCookie(request, "access-token");
+        TokenCheckVo tokenCheckVo = userRepository.tokenCheck(givenToken.getValue());
         
         return tokenCheckVo;
     }

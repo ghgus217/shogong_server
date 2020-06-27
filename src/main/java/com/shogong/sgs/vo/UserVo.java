@@ -25,7 +25,7 @@ public class UserVo{
     String MAIN_MANAGER_NAME;
     String USER_TOKEN;
     Date MODIFYTIME;
-
+    
     
     public int getID() {
         return ID;
