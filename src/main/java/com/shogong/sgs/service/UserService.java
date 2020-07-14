@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.shogong.sgs.vo.LoginResultVo;
 import com.shogong.sgs.vo.LoginVo;
+import com.shogong.sgs.vo.TokenCheckResultVo;
+import com.shogong.sgs.vo.TokenCheckVo;
 import com.shogong.sgs.vo.UserRegistetVo;
 
 @Service
@@ -30,6 +32,11 @@ public class UserService {
     public LoginResultVo Login(LoginVo user)
     {
         return userRepository.Login(user);
+    }
+
+    public TokenCheckResultVo tokenCheck(String tcvo)
+    {
+        return userRepository.tokenCheck(tcvo);
     }
 
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shogong.sgs.repository.BusinessUserInfoRepository">
+
+<select id="checkBusinessUserInfo" parameterType="String" resultType="BusinessUserInfoCheckVo">
+        SELECT
+        index_num,id, password, businessLicenseNumber, businessOperatorName, sellCategory, businessLicense, copyAccount, 
+        businessAddress, shippingAddress, deliveryCompany, deliveryFee, deliveryConditions, mainProducts,
+        majorBusiness, producingCountry, operationStartYear, manager, representativeNumber, representativeEmail, USER_TOKEN, ModifyDate
+
+        FROM 
+        BusinessUserInfo
+
+        WHERE UserId = #{id}
+</select>
+
+<select id="getBusinessUserInfo" parameterType="int" resultType="BusinessUserInfoGetVo">
+        SELECT
+        index_num,id, password, businessLicenseNumber, businessOperatorName, sellCategory, businessLicense, copyAccount, 
+        businessAddress, shippingAddress, deliveryCompany, deliveryFee, deliveryConditions, mainProducts,
+        majorBusiness, producingCountry, operationStartYear, manager, representativeNumber, representativeEmail, USER_TOKEN, ModifyDate
+
+        FROM 
+        BusinessUserInfo
+
+        WHERE index_num = #{postId}
+</select>
+
+</mapper>

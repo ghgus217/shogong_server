@@ -1,5 +1,9 @@
 package com.shogong.sgs.config;
 
+import java.util.Collections;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.common.collect.ImmutableList;
 
 import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties.Credential;
@@ -23,20 +27,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     {
         //security.httpBasic().disable();
         security.cors().and();
+        security.cors().configurationSource(new CorsConfigurationSource(){
+        
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedHeaders(Collections.singletonList("*"));
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.addAllowedOrigin("*");
+            config.setAllowCredentials(true);
+            return config;
+            }
+        });
         security.csrf().disable();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3000"));
-        configuration.setAllowedMethods(ImmutableList.of("HEAD","GET", "POST", "PUT", "DELETE", "PATCH"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

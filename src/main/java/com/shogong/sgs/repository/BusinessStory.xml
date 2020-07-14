@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shogong.sgs.repository.BusinessStoryRepository">
+
+    <insert id="createBusinessStory" parameterType="BusinessStrotyUpdateVo">
+        INSERT INTO BusinessStory
+        (UserId, BusinessStartReason, BusinessOpenHistory, BusinessClosedHistory, BusinessImportantThing,
+        CeoValue, BusinessSatisfaction, BusinessRoad, AnyThing, ModifyDate )
+        VALUES
+        (#{id}, #{BusinessStartReason}, #{BusinessOpenHistory}, #{BusinessClosedHistory}, #{BusinessImportantThing},
+         #{CeoValue}, #{BusinessSatisfaction}, #{BusinessRoad}, #{AnyThing}, now())
+    </insert>
+
+    <select id="checkBusinessStory" parameterType="String" resultType="BusinessStoryGetResultVo">
+        SELECT
+        Idx, BusinessStartReason, BusinessOpenHistory, BusinessClosedHistory, BusinessImportantThing,
+        CeoValue, BusinessSatisfaction, BusinessRoad, AnyThing
+
+        FROM 
+        BusinessStory 
+
+        WHERE UserId = #{id}
+    </select>
+
+    <select id="getByPostIdBusinessStory" parameterType="int" resultType="BusinessStoryGetResultVo">
+        SELECT
+        Idx, BusinessStartReason, BusinessOpenHistory, BusinessClosedHistory, BusinessImportantThing,
+        CeoValue, BusinessSatisfaction, BusinessRoad, AnyThing
+
+        FROM 
+        BusinessStory 
+
+        WHERE Idx = #{postId}
+    </select>
+
+    <select id="getByUserIdBusinessStory" parameterType="String" resultType="BusinessStoryGetResultVo">
+        SELECT
+        Idx, BusinessStartReason, BusinessOpenHistory, BusinessClosedHistory, BusinessImportantThing,
+        CeoValue, BusinessSatisfaction, BusinessRoad, AnyThing
+
+        FROM 
+        BusinessStory 
+
+        WHERE UserId = #{userId}
+    </select>
+
+    <update id="updateBusinessStory" parameterType="BusinessStrotyUpdateVo">
+        UPDATE BusinessStory
+        SET BusinessStartReason = #{BusinessStartReason}, 
+        BusinessOpenHistory = #{BusinessOpenHistory}, 
+        BusinessClosedHistory = #{BusinessClosedHistory}, 
+        BusinessImportantThing = #{BusinessImportantThing},
+        CeoValue = #{CeoValue}, 
+        BusinessSatisfaction = #{BusinessSatisfaction }, 
+        BusinessRoad = #{BusinessRoad}, 
+        AnyThing = #{AnyThing},
+        ModifyDate = now()
+        WHERE UserId = #{id};
+    </update>
+
+</mapper>

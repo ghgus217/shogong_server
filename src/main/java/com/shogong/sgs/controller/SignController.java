@@ -9,6 +9,7 @@ import com.shogong.sgs.service.UserService;
 import com.shogong.sgs.vo.LoginResponseVo;
 import com.shogong.sgs.vo.LoginResultVo;
 import com.shogong.sgs.vo.LoginVo;
+import com.shogong.sgs.vo.TokenCheckResultVo;
 import com.shogong.sgs.vo.TokenCheckVo;
 import com.shogong.sgs.vo.UserRegistetVo;
 
@@ -49,28 +50,35 @@ public class SignController {
 
     @PostMapping("/api/auth/login")
     public LoginResponseVo Login(@RequestBody LoginVo user, HttpServletResponse response) {
+        
         LoginResultVo result = service.Login(user);
         LoginResponseVo lrv = new LoginResponseVo();
 
-        if(result.getUSER_TOKEN() == null)
-            lrv.setLogin_Message("login fail");
+        if(result == null)
+            lrv.setLOGIN_STATUS(false);
         else
         {
-            response.setHeader("access-token", result.getUSER_TOKEN());
-            response.addCookie(new Cookie("access-token", result.getUSER_TOKEN()));  
-            lrv.setLogin_Message("login success");
+            //response.setHeader("access-token", result.getUSER_TOKEN());
+            //response.addCookie(new Cookie("access-token", result.getUSER_TOKEN()));  
+            lrv.setLOGIN_STATUS(true);
+            lrv.setUSER_TOKEN(result.getUSER_TOKEN());
         }
 
         return lrv;
     }
 
     @GetMapping("/api/auth/check")
-    public TokenCheckVo check(HttpServletRequest request, HttpServletResponse response)
+    public TokenCheckResultVo check(HttpServletRequest request, HttpServletResponse response)
     {
-        Cookie givenToken = WebUtils.getCookie(request, "access-token");
-        TokenCheckVo tokenCheckVo = userRepository.tokenCheck(givenToken.getValue());
+        //Cookie givenToken = WebUtils.getCookie(request, "access-token");
+        //TokenCheckVo tokenCheckVo = userRepository.tokenCheck(givenToken.getValue());
+        //String userid = request.getHeader("userId");
+        //TokenCheckResultVo tokenCheckVo = new TokenCheckResultVo();
+        //tokenCheckVo.setId(userid);
+
+        TokenCheckResultVo result = service.tokenCheck(request.getHeader("access_token"));
         
-        return tokenCheckVo;
+        return result;
     }
 
 

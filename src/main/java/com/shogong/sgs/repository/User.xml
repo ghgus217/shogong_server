@@ -18,7 +18,7 @@
         SELECT USER_TOKEN from BusinessUserInfo where id = #{id} AND password = #{password}
     </select>
 
-     <select id="tokenCheck" parameterType="String" resultType="TokenCheckVo">
+     <select id="tokenCheck" parameterType="String" resultType="TokenCheckResultVo">
         SELECT id from BusinessUserInfo where USER_TOKEN = #{givenToken}
     </select>
 

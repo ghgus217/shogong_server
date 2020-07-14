@@ -2,13 +2,24 @@ package com.shogong.sgs.vo;
 
 public class TokenCheckVo {
 
-    String USER_ID;
+    String id;
+    String TOKEN;
 
-    public String getUSER_ID() {
-        return USER_ID;
+    public String getId() {
+        return id;
     }
 
-    public void setUSER_ID(String uSER_ID) {
-        USER_ID = uSER_ID;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTOKEN() {
+        return TOKEN;
+    }
+
+    public void setTOKEN(String tOKEN) {
+		TOKEN = tOKEN;
     }
 }
+
+    

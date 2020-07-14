@@ -2,13 +2,21 @@ package com.shogong.sgs.vo;
 
 public class LoginResponseVo{
 
-    String login_Message;
+    String USER_TOKEN;
+    boolean LOGIN_STATUS;
 
-    public String getLogin_Message() {
-        return login_Message;
+	public String getUSER_TOKEN() {
+		return USER_TOKEN;
+	}
+	public void setUSER_TOKEN(String uSER_TOKEN) {
+		USER_TOKEN = uSER_TOKEN;
+    }
+    
+    public boolean isLOGIN_STATUS() {
+        return LOGIN_STATUS;
     }
 
-    public void setLogin_Message(String login_Message) {
-        this.login_Message = login_Message;
+    public void setLOGIN_STATUS(boolean lOGIN_STATUS) {
+        LOGIN_STATUS = lOGIN_STATUS;
     }
 }
