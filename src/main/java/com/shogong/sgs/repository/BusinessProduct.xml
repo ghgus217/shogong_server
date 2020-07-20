@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shogong.sgs.repository.BusinessProductRepository">
+
+<select id="getBusinessProduct" parameterType="BusinessProductGetVo" resultType="BusinessProductGetResultVo">
+        SELECT
+        idx, userId, productTitle, productPrice, productAddFee, productBody
+
+        FROM 
+        BusinessProduct
+
+        WHERE UserId = #{id}
+
+        LIMIT #{page} OFFSET 10
+</select>
+
+<update id="updateBusinessProduct" parameterType="BusinessProductUpdateVo">
+        UPDATE BusinessProduct SET
+        idx = #{idx}, 
+        userId = #{userId}, 
+        productTitle = #{productTitle}, 
+        productPrice = #{productPrice}, 
+        productAddFee = #{productAddFee}, 
+        productBody = #{productBody},
+        modifyDate = now(),
+        WHERE UserId = #{userId}
+    </update>
+
+</mapper>

@@ -1,5 +1,7 @@
 package com.shogong.sgs.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +10,7 @@ import com.shogong.sgs.service.UserService;
 import com.shogong.sgs.vo.BusinessUserInfoCheckVo;
 import com.shogong.sgs.vo.TokenCheckResultVo;
 import com.shogong.sgs.vo.BusinessUserInfoGetVo;
+import com.shogong.sgs.vo.BusinessUserListResultVo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @CrossOrigin(origins = "http://localhost:3000")
-@Api(description = "제조사스토리 API")
+@Api(description = "사업자 정보 API")
 @RestController
 public class BusinessUserInfoController {
 
@@ -56,5 +61,22 @@ public class BusinessUserInfoController {
 
         return getResult;
     }
+
+    @GetMapping("/businessUserList/get")
+    public ArrayList<BusinessUserListResultVo> getBusinessUserList(@RequestParam int page, HttpServletRequest request,HttpServletResponse response) {
+        
+        TokenCheckResultVo result = userService.tokenCheck(request.getHeader("access_token"));
+
+        if(result == null)
+            return null;
+
+        ArrayList<BusinessUserListResultVo> getResult = service.getBusinessUserList(page);
+
+        if(getResult == null)
+            return null;
+
+        return getResult;
+    }
+    
     
 }

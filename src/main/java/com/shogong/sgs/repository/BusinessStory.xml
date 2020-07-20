@@ -52,7 +52,7 @@
         BusinessClosedHistory = #{BusinessClosedHistory}, 
         BusinessImportantThing = #{BusinessImportantThing},
         CeoValue = #{CeoValue}, 
-        BusinessSatisfaction = #{BusinessSatisfaction }, 
+        BusinessSatisfaction = #{BusinessSatisfaction}, 
         BusinessRoad = #{BusinessRoad}, 
         AnyThing = #{AnyThing},
         ModifyDate = now()

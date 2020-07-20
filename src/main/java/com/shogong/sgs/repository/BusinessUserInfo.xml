@@ -27,4 +27,18 @@
         WHERE index_num = #{postId}
 </select>
 
+<select id="getBusinessUserList" parameterType="int" resultType="BusinessUserListResultVo">
+        SELECT
+        index_num, id, password, businessLicenseNumber, businessOperatorName, sellCategory, businessLicense, copyAccount, 
+        businessAddress, shippingAddress, deliveryCompany, deliveryFee, deliveryConditions, mainProducts,
+        majorBusiness, producingCountry, operationStartYear, manager, representativeNumber, representativeEmail, USER_TOKEN, ModifyDate
+
+        FROM 
+        BusinessUserInfo
+
+        WHERE UserId = #{id}
+
+        LIMIT #{page} OFFSET 10
+</select>
+
 </mapper>
